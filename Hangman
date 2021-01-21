@@ -1,0 +1,74 @@
+#Step 1 
+from replit import clear 
+import random
+from hangman_art import stages , logo     #download ascii hangman logo from site
+from hangman_words import word_list
+
+
+print(logo)
+
+chosen_word = random.choice(word_list)   #create your own word list for this
+#print(f'the answwer to this is {chosen_word}\n')
+x = len(chosen_word)
+blank = '_ '*x 
+blank = blank.split()
+
+
+used_letters=[]
+code = 1
+life = len(stages)-1
+print(f'Your total lives are {life}')
+
+
+
+while code !=  0:
+  print(' '.join(blank), '\n')
+  chosen_letter = input("Choose a letter: ").lower()
+  clear() 
+
+  if chosen_letter in used_letters:
+    print(f'{chosen_letter} has been used already. Try again!')
+    code=1
+
+   
+  if chosen_letter in chosen_word:
+    for index, letter in enumerate(chosen_word):
+      if letter ==  chosen_letter:
+        blank[index] = letter 
+
+        if '_'  in blank:
+          code = 1 
+        else:
+          code = 0
+          print('\nYou Win!!!! ')
+          #print('The word was:',''.join(blank))
+  else:
+          print('\nYour Letter is not in the word! ')
+          
+          life -= 1
+          print(stages[life])
+
+          if life == 0:
+            code = 0
+            print('Your letter is not in the word! ')
+            print('You Lost!!! Game over\n')
+            print(f'The chosen word was {chosen_word}')
+
+          else:
+            code = 1
+          
+        
+          
+
+
+  
+
+  #print(f'Your chosen letters are: {used_letters} ')
+  used_letters.append(chosen_letter)
+
+
+
+
+
+
+
