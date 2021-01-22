@@ -1,0 +1,77 @@
+alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+
+#ENCRYPTION FUNCTION
+def encrypt(text, shift):
+  new_word = []
+  
+  
+  for index, i in enumerate(text):
+
+    if i in alphabet:
+
+      pos = alphabet.index(i)  # finds index in alpahbet to the letter
+      try:
+          new_pos = alphabet[pos + shift]  #finds new letter after shift
+          new_word.append(new_pos)
+      except (IndexError):
+        new_pos = alphabet[shift - (25 - pos)]
+        new_word.append(new_pos)
+    else:
+      new_word.append(i)
+
+  
+  new_word = ''.join(new_word)
+  print(f'Your encrypted messsge is {new_word}\n')
+
+#DECRYPTION FUNCTION
+def decrypt(text, shift):
+  d_word = []
+
+
+  for index, i in enumerate(text):
+    if i in alphabet:
+
+      pos = alphabet.index(i)  # finds index in alpahbet to the letter 
+      try:
+        new_pos = alphabet[pos - shift]
+        #print(new_pos). this to test that is printing correct word 
+        d_word.append(new_pos)
+
+      except (IndexError):
+        new_pos = alphabet[pos-shift+26]   #Gap to the left - shift + len(alphabet+1)
+        d_word.append(new_pos)
+    else:
+      d_word.append(i)
+
+  d_word = ''.join(d_word)
+  print(f'Your decrypted message is {d_word}\n')
+
+code = 1
+from logo import logo
+print(logo)
+
+while code == 1:
+  
+    direction = input("Type 'encode' to encrypt, type 'decode' to decrypt:\n").lower()
+    text = input("Type your message:\n").lower()
+    shift = int(input("Type the shift number:\n"))
+
+    if shift > 26:
+      shift = shift % 26
+      print(shift)
+
+
+    if direction == 'encode':
+        encrypt(text, shift)
+        
+    elif direction == 'decode' :
+        decrypt(text, shift)
+
+    run = input('Would you like to encode or decode again? Type yes to run program else type no.\n').lower()
+
+    if run == 'yes':
+      code = 1
+    else :
+      code = 0
+      
