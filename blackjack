@@ -1,0 +1,158 @@
+
+
+
+#Start __________________________________________________________________________________________
+import random 
+from art import logo
+from replit import clear
+
+
+
+cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+deck_of_cards = cards + cards + cards + cards               #completes a deck of 52
+
+#this functin will deal an extra card each time someone wants a hit or dealer needs another 
+def random_card(): 
+  random_card = []
+  extra_card = random.choice(deck_of_cards)
+  deck_of_cards.remove(extra_card)
+  random_card.append(extra_card)
+  return random_card
+
+
+def dealer():    #this will deal first two cards for dealer
+
+  dealers_card = []
+  dealer_first_card = random.choice(deck_of_cards)
+  deck_of_cards.remove(dealer_first_card)
+  dealers_card.append(dealer_first_card)
+
+  return dealers_card 
+
+def dealer_hidden():
+  hidden_card = []
+  dealer_hidden_card = random.choice(deck_of_cards)
+  deck_of_cards.remove(dealer_hidden_card)
+  hidden_card.append(dealer_hidden_card)
+
+  return hidden_card
+
+def player():         # this will deal first two cards to player
+  players_cards = []  
+       
+  player_first_card = random.choice(deck_of_cards)
+  players_cards.append(player_first_card)
+  deck_of_cards.remove(player_first_card)
+
+  player_second_card = random.choice(deck_of_cards)
+  players_cards.append(player_second_card)
+  deck_of_cards.remove(player_second_card)
+
+  return players_cards
+  
+def blackjack():
+
+  clear()
+  print(logo)
+
+  hidden_card = dealer_hidden()
+  dealer_card = dealer()
+  players_cards = player()
+  print('The dealers first visible card is', dealer_card)
+  print('Your first cards are', players_cards)
+
+  first_check = sum(players_cards)
+
+
+  if first_check == 21:
+    dealer_cards = dealer_card + hidden_card
+    dealer_first_check = sum(dealer_cards)
+    print(dealer_cards)
+    print(dealer_first_check)
+
+    if first_check == dealer_first_check:
+      print('Its a tie. Both player and dealer hit 21! ')
+
+    else:
+      print('You scored 21 and the dealer didnt. You win!!')
+
+
+
+
+  code = 1
+
+  while code == 1:
+    hit_again = input('Would you like to hit or hold? \n').lower()
+
+    if hit_again == 'hit':
+      hit_card = random_card()
+      
+      if hit_card == 11:
+        if sum(players_cards)>21:
+            temp_card = 1
+            temp_card = hit_card
+            players_cards = players_cards + hit_card
+
+      players_cards = players_cards + hit_card
+      print(players_cards)
+    
+    elif hit_again == 'hold':
+      code = 0
+
+
+
+  if hidden_card == 11:
+    if sum(dealer_cards) > 21:
+      temp_dealer = 1
+      temp_dealer = hit_card
+
+
+  dealer_cards = dealer_card + hidden_card    #once the player above holds the hidden card is revealed
+  dealer_sum = sum(dealer_cards)
+
+
+  if dealer_sum < 16:
+    print('The dealers total is below 16 he will draw another card. ')
+    while dealer_sum < 16:
+      hit_dealer = random_card()
+
+      dealer_cards = dealer_cards + hit_dealer
+      dealer_sum = sum(dealer_cards)
+
+
+  print('The dealers revealed cards are ', dealer_cards)
+  print('Your cards are ',players_cards)
+
+  player_sum_total = sum(players_cards)
+
+  print(player_sum_total)
+  print(dealer_sum)
+
+  if player_sum_total > dealer_sum and player_sum_total < 21:
+    print(f'You win!! Your sum is {player_sum_total} and the dealers sum is {dealer_sum}')
+
+  elif dealer_sum > player_sum_total and dealer_sum < 21:
+    print(f'The dealer wins!! Your sum: {player_sum_total} Dealers sum: {dealer_sum}')
+
+  elif player_sum_total > 21 and dealer_sum > 21:
+    print(f'You both lose!! Your sum: {player_sum_total}, Dealers sum: {dealer_sum}')
+
+  elif player_sum_total < 21 and dealer_sum > 21:
+    print(f'You win!! Your sum: {player_sum_total}, Dealer sum {dealer_sum}')
+
+  elif dealer_sum < 21 and player_sum_total > 21:
+    print(f'You lose!! Your sum: {player_sum_total}, Dealer sum {dealer_sum}')
+
+  elif player_sum_total == dealer_sum:
+    print(f'You both scored the same total: player and dealer both had {player_sum_total}')
+
+  play_again = input('Would you like to play again? ').lower()
+
+  if play_again == 'yes':
+    blackjack()
+
+  elif play_again == 'no':
+    print('You have exited the game. ')
+    
+  
+blackjack()
